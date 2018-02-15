@@ -19,41 +19,6 @@ $app->get('/v1/:name', function ($name) {
     echo "Hello, $name";
 });
 
-$app->get('/v1/:key/services',
-function ($key) use ($app) {
-   try{
-	if($key == 'cOjxzK4vGc7310'){
-    $request = $app->request();
-   
-			   try {
-
-				  $result = null;
-
-					$sql = "SELECT * FROM service";
-
-					$db = getDB();
-					$stmt = $db->prepare($sql);
-					$stmt->execute();
-					 $allRoutes = $stmt->fetchAll();
-					 $db = null;
-					 $result = null;
-					 $result = '{"resultObj":{"services":'.json_encode($allRoutes).',"status":"SUCCESS"}}';
-
-				  echo $result;
-				  
-			   } catch(PDOException $e) {
-				  //error_log($e->getMessage(), 3, '/var/tmp/php.log');
-				  echo '{"error":{"text":'. $e->getMessage() .'}}';
-			   }
-	}else{
-		 echo '{"error":{"text":"Invalid API key"}}';
-	}
-}catch(PDOException $e) {
-      //error_log($e->getMessage(), 3, '/var/tmp/php.log');
-      echo '{"error":{"text":'. $e->getMessage() .'}}';
-   }
-});
-
 $app->get('/routes/:key',
 function ($key) use ($app) {
    try{
